@@ -1,4 +1,5 @@
 %% demo weight optimised generative model
+% example change
 clear; clc;
 addpath('/Users/da04/Desktop/Post-doc/Research/weighted_gm');
 %% run
