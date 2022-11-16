@@ -1,4 +1,4 @@
-function [bb cc dd] = weight_optimised_generative_model(A,D,m,modeltype,modelvar,params,epsilon,weighted_model)
+function [b c] = weight_optimised_generative_model(A,D,m,modeltype,modelvar,params,epsilon,weighted_model)
 % GENERATIVE_MODEL          Run generative model code
 %
 %   B = GENERATIVE_MODEL(A,D,m,modeltype,modelvar,params,weightupdate)
@@ -84,9 +84,9 @@ end
 
 n = length(D);
 nparams = size(params,1);
-bb = zeros(m,nparams);
-cc = zeros(n,n,m,nparams);
-dd = zeros(n,n,m,nparams);
+b = zeros(m,nparams);
+Akeep = zeros(n,n,m,nparams);
+Wkeep = zeros(n,n,m,nparams);
 
 switch modeltype
     
@@ -195,7 +195,7 @@ switch modeltype
             tic
             eta = params(iparam,1);
             gam = params(iparam,2);
-            [bb(:,iparam) cc(:,:,:,iparam) dd(:,:,:,iparam)] = fcn_matching(A,Kseed,D,m,eta,gam,modelvar,epsilon,weighted_model);
+            [b(:,iparam) c(:,:,:,iparam) d(:,:,:,iparam)] = fcn_matching(A,Kseed,D,m,eta,gam,modelvar,epsilon,weighted_model);
             time = toc;
         end
         
@@ -791,11 +791,7 @@ for i = (mseed + 1):m
 end
 b = find(triu(A,1));
 
-function [bb cc dd] = fcn_matching(A,K,D,m,eta,gam,modelvar,epsilon,weighted_model)
-% initalise
-Akeep = zeros(length(A),length(A),m);
-Wkeep = zeros(length(A),length(A),m);
-% take settings
+function [b c] = fcn_matching(A,K,D,m,eta,gam,modelvar,epsilon,weighted_model)
 weight_update = weighted_model.update;
 start_thr = weighted_model.start;
 alpha = weighted_model.optimisation.alpha;
@@ -949,10 +945,9 @@ for ii = (mseed + 1):m
     Ff = Fd.*Fk.*~A;
     P = Ff(indx);
 end
-bb = find(triu(A,1));
-cc = Akeep;
-dd = Wkeep;
-dd(:,:,1:start_thr) = cc(:,:,1:start_thr);
+b = find(triu(A,1));
+c = Akeep;
+d = Wkeep;
 
 function b = fcn_sptl(A,D,m,eta,modelvar)
 n = length(D);
