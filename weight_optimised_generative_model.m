@@ -797,6 +797,7 @@ Akeep = zeros(length(A),length(A),m);
 Wkeep = zeros(length(A),length(A),m);
 % take settings
 weight_update = weighted_model.update;
+omega = weighted_model.omega;
 start_thr = weighted_model.start;
 alpha = weighted_model.optimisation.alpha;
 nu = weighted_model.optimisation.resolution;
@@ -876,6 +877,8 @@ for ii = (mseed + 1):m
                     wsynth(ind(2),ind(1)) = reps(ru);
                     % calculate the communicability
                     comm = expm(wsynth);
+                    % parameterise the communicability
+                    comm = comm.^omega;
                     % and the summed communicability
                     sum_comm(edge,ru) = sum(comm,'all');
                 end
