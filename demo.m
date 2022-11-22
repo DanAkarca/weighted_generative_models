@@ -14,7 +14,7 @@ load('/imaging/astle/users/da04/Postdoc/weighted_gm/weighted_generative_models/p
 type = 1;
 threshold = 6;
 Wtgt = squeeze(consensus.dk.connectivity(type,threshold,:,:));
-Wseed = squeeze(consensus.dk.seed(type,:,:)); Wseed(Wseed<0.5)=0;
+Wseed = squeeze(consensus.dk.seed(type,threshold,:,:));
 D = consensus.dk.euclidean;
 % compute observed statistics
 x = cell(4,1);
@@ -24,45 +24,58 @@ x{3} = betweenness_wei(weight_conversion(Wtgt,'normalize'));
 x{4} = D(triu(Wtgt,1) > 0);
 % binary generative model parameters
 nnode = 68;
-seed = zeros(nnode,nnode);
+% seed = Wseed;
+% seed = double(Wseed>0);
+seed = zeros(nnode);
 m = nnz(Wtgt)/2;
+mseed = nnz(seed)/2;
 modeltype = 'matching';
 modelvar = {'powerlaw','powerlaw'};
-params = [-2 0.35];
+params = [-2.5 0.35];
 epsilon = 1e-6;
 % weighted genreative model parameters
 weighted_model = struct;
 weighted_model.update = 1; % flag for weighted genreative models optimisation
-weighted_model.omega = 1; % the parameterisation of communicability when optimised
-weighted_model.start = 1; % when to start optimisation
+weighted_model.start = 1; % when to start optimisation (this is on top of the initial seed network connectivity)
+weighted_model.optimisation.function = 1; % communicability, 1. normalised communicability,2
 weighted_model.optimisation.resolution = 0.05; % how many weight alternations are sampled before the gradient is taken
 weighted_model.optimisation.samples = 2; % how many samples are taken to infer the gradient
-weighted_model.optimisation.alpha = 0.02; % the update coefficient
+weighted_model.optimisation.alpha = .02; % the update coefficient [must be a smaller range]
 % run the weighted genreative model
 [bb cc dd] = weight_optimised_generative_model(seed,D,m,modeltype,modelvar,params,epsilon,...
     weighted_model);
 % get the final network
 wfinal = dd(:,:,end);
 % options string
-opt = sprintf('omega=%g, start=%g, resolution=%g, samples=%g, alpha=%g',...
-    weighted_model.omega,...
+opt = sprintf('start=%g, resolution=%g, samples=%g, alpha=%g,func=%g',...
     weighted_model.start,...
     weighted_model.optimisation.resolution,...
     weighted_model.optimisation.samples,...
-    weighted_model.optimisation.alpha);
+    weighted_model.optimisation.alpha,...
+    weighted_model.optimisation.function);
 %% do an evaluation
-% iniialise
+% compute on the normalised simulation
 K = [];
 y = cell(4,1);
-% compute on the simulation
 y{1} = sum(weight_conversion(wfinal,'normalize'),2);
 y{2} = clustering_coef_wu(weight_conversion(wfinal,'normalize'));
-y{3} = betweenness_wei(weight_conversion(wfinal,'normalize'));
-y{4} = D(triu(wfinal,1) > 0);
+y{3} = betweenness_wei(wfinal);
+y{4} = D(triu(wfinal,1) > 0); % can cause an error if there are negative weights!
 for j = 1:4
     K(j) = fcn_ks(x{j},y{j});
 end
 E = max(K,[],2);
+% compute on the non-normalised
+Kn = [];
+yn = cell(4,1);
+yn{1} = sum(wfinal,2);
+yn{2} = clustering_coef_wu(weight_conversion(wfinal,'normalize'));
+yn{3} = betweenness_wei(wfinal);
+yn{4} = D(triu(wfinal,1) > 0); % can cause an error if there are negative weights!
+for j = 1:4
+    Kn(j) = fcn_ks(x{j},yn{j});
+end
+En = max(Kn,[],2);
 % labels
 ks_labels = string({'s','wc','wb','d'});
 % visualise
@@ -82,23 +95,28 @@ ylabel('KS');
 sgtitle(opt);
 %% plot outcome
 % come some statistical measures over time
-nstat = 2;
-statistics = zeros(m,nstat);
-for step = 1:m;
+nstat = 3;
+statistics = zeros(m-mseed,nstat);;
+for step = 1:m-mseed;
     % take network
     w = squeeze(dd(:,:,step));
     % compute statistics
     statistics(step,1) = sum(w,'all'); % total weight
     [~,statistics(step,2)] = modularity_und(w); % modularity
+    statistics(step,3) = efficiency_wei(w);
 end
 % plot the weights over time
 h = figure; h.Position = [10 10 800 300];
-subplot(1,2,1);
+subplot(1,3,1);
 plot(statistics(:,1));
 b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 14;
 xlabel('Simulated time'); ylabel('Network weight'); box off;
-subplot(1,2,2);
+subplot(1,3,2);
 plot(statistics(:,2));
+b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 14;
+xlabel('Simulated time');  ylabel('Modularity Q'); box off;
+subplot(1,3,3);
+plot(statistics(:,3));
 b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 14;
 xlabel('Simulated time');  ylabel('Modularity Q'); box off;
 % title

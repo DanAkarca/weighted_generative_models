@@ -260,6 +260,7 @@ connectivity = squeeze(dk_connectivity_thresholded(:,type,:,:,:));
 % initialise
 nmeasures = 2;
 statistics = zeros(nsub,nmeasures);
+measure_labels = string({'Total weight','Modularity'});
 % compute statistics for each subject
 for sub = 1:nsub;
     for threshold = 1:nthresholds;
@@ -274,9 +275,10 @@ end
 h = figure; h.Position = [100 100 1200 400];
 for i = 1:nmeasures;
     subplot(1,nmeasures,i);
-    plot(squeeze(statistics(:,:,i))');
+    plot(squeeze(statistics(:,:,i))','linewidth',3);
     box off;
     b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 14;
+    ylabel(measure_labels(i)); xlabel('Threshold');
 end
 %% generate consensus networks on thresholded data
 %{
@@ -375,23 +377,28 @@ for threshold = 1:nthresholds;
     xlabel('Node'); ylabel('Node');
     b = gca; b.FontName = 'Arial'; colormap(viridis);
 end
-%% compute the seed network < to review
-% set cortical
-dk_connectivity_cortical = dk_connectivity(:,datathreshold,dk_cortical,dk_cortical);
-de_connectivity_cortical = de_connectivity(:,datathreshold,de_cortical,de_cortical);
+%% compute the seed network
 % initialise
 dk_connectivity_seed = [];
 de_connectivity_seed = [];
+% take the seed as the minimum value across all subjects
 for type = 1:ndata;
-    % dk atlas
-    dk_connectivity_type = squeeze(dk_connectivity_cortical(:,type,:,:));
-    % take minimum across subjects
-    dk_connectivity_seed(type,:,:) = min(dk_connectivity_type,[],1);
-    % de atlas
-    de_connectivity_type = squeeze(de_connectivity_cortical(:,type,:,:));
-    % take minimum across subjects
-    de_connectivity_seed(type,:,:) = min(de_connectivity_type,[],1);
+    for thresholded = 1:nthresholds;
+        % dk atlas
+        dk = squeeze(dk_connectivity_thresholded(:,type,threshold,:,:));
+        % take minimum across subjects
+        dk_connectivity_seed(type,threshold,:,:) = min(dk,[],1);
+        % de atlas
+        de = squeeze(de_connectivity_thresholded(:,type,threshold,:,:));
+        % take minimum across subjects
+        de_connectivity_seed(type,threshold,:,:) = min(de,[],1);
+    end
 end
+% view the density of a single one
+type = 1;
+threshold = 6;
+data = squeeze(dk_connectivity_seed(type,threshold,:,:));
+disp(density_und(data));
 %% keep data
 consensus = struct;
 consensus.de.connectivity = de_connectivity_consensus;

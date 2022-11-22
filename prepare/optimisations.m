@@ -44,7 +44,7 @@ box off;
 % set n
 n = 0.05;
 % set number of reps either way
-rep = 15;
+rep = 10;
 % form a string
 repvec = [-rep*n:n:0:n:rep*n];
 % nreps
@@ -81,10 +81,11 @@ for edge = 1:nedge;
         % update it
         wsynth(ind(1),ind(2)) = reps(r);
         wsynth(ind(2),ind(1)) = reps(r);
-        % calculate the normalized communicability
-        S = diag(sum(wsynth,2));
-        adj = (S^-.5)*wsynth*(S^-.5);
-        nc = expm(adj);
+        % calculate the normalized communicability <<<<< if you don't normalize, you don't get strengthening! <<<<<
+        %S = diag(sum(wsynth,2));
+        %adj = (S^-.5)*wsynth*(S^-.5);
+        %nc = expm(adj);
+        nc = expm(wsynth); % comment this out, testing
         norm_comm(edge,r,:,:) = nc;
         % and the summed communicability
         sum_comm(edge,r) = sum(nc,'all');

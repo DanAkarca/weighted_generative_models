@@ -1,30 +1,35 @@
-function [bb cc dd] = weight_optimised_generative_model(A,D,m,modeltype,modelvar,params,epsilon,weighted_model)
-% GENERATIVE_MODEL          Run generative model code
+function [bb,cc,dd] = weight_optimised_genereative_model(A,D,m,modeltype,modelvar,params,epsilon,weighted_model)
+% WEIGHT_OPTIMISED_GENERATIVE_MODEL          Run weighted generative network model code
 %
-%   B = GENERATIVE_MODEL(A,D,m,modeltype,modelvar,params,weightupdate)
+%   [bb,cc,dd] = GENERATIVE_MODEL(A,D,m,modeltype,modelvar,params,weightupdate)
 %
 %   Generates synthetic networks using the models described in the study by
 %   Betzel et al (2016) in Neuroimage.
 %
 %   Inputs:
-%           A,           binary network of seed connections
-%           D,           Euclidean distance/fiber length matrix
-%           m,           number of connections that should be present in
-%                        final synthetic network
-%           modeltype,   specifies the generative rule (see below)
-%           modelvar,    specifies whether the generative rules are based on
-%                        power-law or exponential relationship
-%                        ({'powerlaw'}|{'exponential})
-%           params,      either a vector (in the case of the geometric
-%                        model) or a matrix (for all other models) of
-%                        parameters at which the model should be evaluated.
-%           epsilon,     the baseline probability of forming a particular
-%                        connection (should be a very small number
-%                        {default = 1e-5})
+%           A,                  binary/weighted network of seed connections
+%           D,                  Euclidean distance/fiber length matrix
+%           m,                  number of connections that should be present in
+%                               final synthetic network
+%           modeltype,          specifies the generative rule (see below)
+%           modelvar,           specifies whether the generative rules are based on
+%                               power-law or exponential relationship
+%                               ({'powerlaw'}|{'exponential})
+%           params,             either a vector (in the case of the geometric
+%                               model) or a matrix (for all other models) of
+%                               parameters at which the model should be evaluated.
+%           epsilon,            the baseline probability of forming a particular
+%                               connection (should be a very small number
+%                               {default = 1e-5})
+%           weighted_model      struct of setting which alter the weight
+%                               optimisation
 %
 %   Output:
-%           B,          m x number of networks matrix of connections
-%
+%           bb,                 m x nparam matrix of connections
+%           cc,                 nnode x nnode x m-mseed x nparam matrix of 
+%                               weighted networks
+%           dd,                 nnode x nnode x m-mseed x nparam matrix of
+%                               binary networks
 %
 %   Full list of model types:
 %   (each model type realizes a different generative rule)
@@ -84,9 +89,10 @@ end
 
 n = length(D);
 nparams = size(params,1);
+mseed = nnz(A)/2;
 bb = zeros(m,nparams);
-cc = zeros(n,n,m,nparams);
-dd = zeros(n,n,m,nparams);
+cc = zeros(n,n,m-mseed,nparams);
+dd = zeros(n,n,m-mseed,nparams);
 
 switch modeltype
     
@@ -792,16 +798,14 @@ end
 b = find(triu(A,1));
 
 function [bb cc dd] = fcn_matching(A,K,D,m,eta,gam,modelvar,epsilon,weighted_model)
-% initalise
-Akeep = zeros(length(A),length(A),m);
-Wkeep = zeros(length(A),length(A),m);
-% take settings
+% take settings from the struct
 weight_update = weighted_model.update;
-omega = weighted_model.omega;
 start_thr = weighted_model.start;
+func = weighted_model.optimisation.function;
 alpha = weighted_model.optimisation.alpha;
 nu = weighted_model.optimisation.resolution;
 rep = weighted_model.optimisation.samples;
+% start the model
 K = K + epsilon;
 n = length(D);
 mseed = nnz(A)/2;
@@ -823,7 +827,10 @@ Ff = Fd.*Fk.*~A;
 [u,v] = find(triu(ones(n),1));
 indx = (v - 1)*n + u;
 P = Ff(indx);
-c = zeros(n,n,m-(mseed+1));
+% initalise
+Akeep = zeros(length(A),length(A),m-mseed);
+Wkeep = zeros(length(A),length(A),m-mseed);
+% loop over added connections
 for ii = (mseed + 1):m
     % display
     disp(sprintf('Connection %g of %g added',ii,m));
@@ -840,9 +847,9 @@ for ii = (mseed + 1):m
         % timing
         t(ii) = tic;
         % start optimisation
-        if ii>=start_thr; % point at which optimisation starts
+        if ii>=mseed+start_thr; % point at which optimisation starts
             % if first iteration, use the biniary
-            if ii==start_thr;
+            if ii==mseed+start_thr;
                 W = A;
             else
                 W = Wkeep(:,:,ii-mseed-1); % take the previously computed version
@@ -875,10 +882,17 @@ for ii = (mseed + 1):m
                     % update it
                     wsynth(ind(1),ind(2)) = reps(ru);
                     wsynth(ind(2),ind(1)) = reps(ru);
-                    % calculate the communicability
-                    comm = expm(wsynth);
-                    % parameterise the communicability
-                    comm = comm.^omega;
+                    % can constain the updates to the giant component
+                    if func == 1; % calculate the communicability
+                        comm = expm(wsynth);
+                    else if func == 2; % calculate the normalised communicability
+                        s = sum(wsynth,2); % get the strength
+                        s(s==0) = epsilon; % if the diagonals are zero, it will fail so provide an epsilon
+                        S = diag(s); % diagonalise
+                        adj = (S^-.5)*wsynth*(S^-.5); % compute the exponent
+                        comm = expm(adj); % calculate the normalised communicability
+                        end
+                    end
                     % and the summed communicability
                     sum_comm(edge,ru) = sum(comm,'all');
                 end
@@ -890,7 +904,7 @@ for ii = (mseed + 1):m
                  x = 1:nreps;
                  y = sum_comm(edge,:);
                  z =  fit(x',y','poly1');
-                 curve(edge) = z.p1; 
+                 curve(edge) = z.p1; % first order
             end
             % update the network partially according to the gradient
             for edge = 1:nedge
@@ -952,9 +966,9 @@ for ii = (mseed + 1):m
     Ff = Fd.*Fk.*~A;
     P = Ff(indx);
 end
-bb = find(triu(A,1));
-cc = Akeep;
-dd = Wkeep;
+bb = find(triu(A,1)); % keep the binary matrix
+cc = Akeep; % keep the binary matrix over time
+dd = Wkeep; % keep the weighted matrix over time
 dd(:,:,1:start_thr) = cc(:,:,1:start_thr);
 
 function b = fcn_sptl(A,D,m,eta,modelvar)
