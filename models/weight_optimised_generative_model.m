@@ -993,7 +993,3 @@ for i = (mseed + 1):m
     P(b(1:i)) = 0;
 end
 b = indx(b);
-
-function [c,ceq] = active(x);
-c = [];
-ceq = double(x==1);
