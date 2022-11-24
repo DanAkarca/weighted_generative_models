@@ -1,0 +1,480 @@
+MATLAB is selecting SOFTWARE OPENGL rendering.
+
+                                                                              < M A T L A B (R) >
+                                                                    Copyright 1984-2020 The MathWorks, Inc.
+                                                                R2020b Update 1 (9.9.0.1495850) 64-bit (glnxa64)
+                                                                               September 30, 2020
+
+ 
+To get started, type doc.
+For product information, visit www.mathworks.com.
+ 
+[Warning: Function copyfile has the same name as a MATLAB builtin. We suggest you rename the function to avoid a potential name conflict.] 
+[> In path (line 109)
+In addpath (line 86)
+In matlabrc (line 62)] 
+Using cbsu startup file /hpc-software/matlab/cbu/cbu_startup_v3
+Connection 1 of 227 added
+Weights at time step 1 of 227 tuned
+Connection 2 of 227 added
+Weights at time step 2 of 227 tuned
+Connection 3 of 227 added
+Weights at time step 3 of 227 tuned
+Connection 4 of 227 added
+Weights at time step 4 of 227 tuned
+Connection 5 of 227 added
+Weights at time step 5 of 227 tuned
+Connection 6 of 227 added
+Weights at time step 6 of 227 tuned
+Connection 7 of 227 added
+Weights at time step 7 of 227 tuned
+Connection 8 of 227 added
+Weights at time step 8 of 227 tuned
+Connection 9 of 227 added
+Weights at time step 9 of 227 tuned
+Connection 10 of 227 added
+Weights at time step 10 of 227 tuned
+Connection 11 of 227 added
+Weights at time step 11 of 227 tuned
+Connection 12 of 227 added
+Weights at time step 12 of 227 tuned
+Connection 13 of 227 added
+Weights at time step 13 of 227 tuned
+Connection 14 of 227 added
+Weights at time step 14 of 227 tuned
+Connection 15 of 227 added
+Weights at time step 15 of 227 tuned
+Connection 16 of 227 added
+Weights at time step 16 of 227 tuned
+Connection 17 of 227 added
+Weights at time step 17 of 227 tuned
+Connection 18 of 227 added
+Weights at time step 18 of 227 tuned
+Connection 19 of 227 added
+Weights at time step 19 of 227 tuned
+Connection 20 of 227 added
+Weights at time step 20 of 227 tuned
+Connection 21 of 227 added
+Weights at time step 21 of 227 tuned
+Connection 22 of 227 added
+Weights at time step 22 of 227 tuned
+Connection 23 of 227 added
+Weights at time step 23 of 227 tuned
+Connection 24 of 227 added
+Weights at time step 24 of 227 tuned
+Connection 25 of 227 added
+Weights at time step 25 of 227 tuned
+Connection 26 of 227 added
+Weights at time step 26 of 227 tuned
+Connection 27 of 227 added
+Weights at time step 27 of 227 tuned
+Connection 28 of 227 added
+Weights at time step 28 of 227 tuned
+Connection 29 of 227 added
+Weights at time step 29 of 227 tuned
+Connection 30 of 227 added
+Weights at time step 30 of 227 tuned
+Connection 31 of 227 added
+Weights at time step 31 of 227 tuned
+Connection 32 of 227 added
+Weights at time step 32 of 227 tuned
+Connection 33 of 227 added
+Weights at time step 33 of 227 tuned
+Connection 34 of 227 added
+Weights at time step 34 of 227 tuned
+Connection 35 of 227 added
+Weights at time step 35 of 227 tuned
+Connection 36 of 227 added
+Weights at time step 36 of 227 tuned
+Connection 37 of 227 added
+Weights at time step 37 of 227 tuned
+Connection 38 of 227 added
+Weights at time step 38 of 227 tuned
+Connection 39 of 227 added
+Weights at time step 39 of 227 tuned
+Connection 40 of 227 added
+Weights at time step 40 of 227 tuned
+Connection 41 of 227 added
+Weights at time step 41 of 227 tuned
+Connection 42 of 227 added
+Weights at time step 42 of 227 tuned
+Connection 43 of 227 added
+Weights at time step 43 of 227 tuned
+Connection 44 of 227 added
+Weights at time step 44 of 227 tuned
+Connection 45 of 227 added
+Weights at time step 45 of 227 tuned
+Connection 46 of 227 added
+Weights at time step 46 of 227 tuned
+Connection 47 of 227 added
+Weights at time step 47 of 227 tuned
+Connection 48 of 227 added
+Weights at time step 48 of 227 tuned
+Connection 49 of 227 added
+Weights at time step 49 of 227 tuned
+Connection 50 of 227 added
+Weights at time step 50 of 227 tuned
+Connection 51 of 227 added
+Weights at time step 51 of 227 tuned
+Connection 52 of 227 added
+Weights at time step 52 of 227 tuned
+Connection 53 of 227 added
+Weights at time step 53 of 227 tuned
+Connection 54 of 227 added
+Weights at time step 54 of 227 tuned
+Connection 55 of 227 added
+Weights at time step 55 of 227 tuned
+Connection 56 of 227 added
+Weights at time step 56 of 227 tuned
+Connection 57 of 227 added
+Weights at time step 57 of 227 tuned
+Connection 58 of 227 added
+Weights at time step 58 of 227 tuned
+Connection 59 of 227 added
+Weights at time step 59 of 227 tuned
+Connection 60 of 227 added
+Weights at time step 60 of 227 tuned
+Connection 61 of 227 added
+Weights at time step 61 of 227 tuned
+Connection 62 of 227 added
+Weights at time step 62 of 227 tuned
+Connection 63 of 227 added
+Weights at time step 63 of 227 tuned
+Connection 64 of 227 added
+Weights at time step 64 of 227 tuned
+Connection 65 of 227 added
+Weights at time step 65 of 227 tuned
+Connection 66 of 227 added
+Weights at time step 66 of 227 tuned
+Connection 67 of 227 added
+Weights at time step 67 of 227 tuned
+Connection 68 of 227 added
+Weights at time step 68 of 227 tuned
+Connection 69 of 227 added
+Weights at time step 69 of 227 tuned
+Connection 70 of 227 added
+Weights at time step 70 of 227 tuned
+Connection 71 of 227 added
+Weights at time step 71 of 227 tuned
+Connection 72 of 227 added
+Weights at time step 72 of 227 tuned
+Connection 73 of 227 added
+Weights at time step 73 of 227 tuned
+Connection 74 of 227 added
+Weights at time step 74 of 227 tuned
+Connection 75 of 227 added
+Weights at time step 75 of 227 tuned
+Connection 76 of 227 added
+Weights at time step 76 of 227 tuned
+Connection 77 of 227 added
+Weights at time step 77 of 227 tuned
+Connection 78 of 227 added
+Weights at time step 78 of 227 tuned
+Connection 79 of 227 added
+Weights at time step 79 of 227 tuned
+Connection 80 of 227 added
+Weights at time step 80 of 227 tuned
+Connection 81 of 227 added
+Weights at time step 81 of 227 tuned
+Connection 82 of 227 added
+Weights at time step 82 of 227 tuned
+Connection 83 of 227 added
+Weights at time step 83 of 227 tuned
+Connection 84 of 227 added
+Weights at time step 84 of 227 tuned
+Connection 85 of 227 added
+Weights at time step 85 of 227 tuned
+Connection 86 of 227 added
+Weights at time step 86 of 227 tuned
+Connection 87 of 227 added
+Weights at time step 87 of 227 tuned
+Connection 88 of 227 added
+Weights at time step 88 of 227 tuned
+Connection 89 of 227 added
+Weights at time step 89 of 227 tuned
+Connection 90 of 227 added
+Weights at time step 90 of 227 tuned
+Connection 91 of 227 added
+Weights at time step 91 of 227 tuned
+Connection 92 of 227 added
+Weights at time step 92 of 227 tuned
+Connection 93 of 227 added
+Weights at time step 93 of 227 tuned
+Connection 94 of 227 added
+Weights at time step 94 of 227 tuned
+Connection 95 of 227 added
+Weights at time step 95 of 227 tuned
+Connection 96 of 227 added
+Weights at time step 96 of 227 tuned
+Connection 97 of 227 added
+Weights at time step 97 of 227 tuned
+Connection 98 of 227 added
+Weights at time step 98 of 227 tuned
+Connection 99 of 227 added
+Weights at time step 99 of 227 tuned
+Connection 100 of 227 added
+Weights at time step 100 of 227 tuned
+Connection 101 of 227 added
+Weights at time step 101 of 227 tuned
+Connection 102 of 227 added
+Weights at time step 102 of 227 tuned
+Connection 103 of 227 added
+Weights at time step 103 of 227 tuned
+Connection 104 of 227 added
+Weights at time step 104 of 227 tuned
+Connection 105 of 227 added
+Weights at time step 105 of 227 tuned
+Connection 106 of 227 added
+Weights at time step 106 of 227 tuned
+Connection 107 of 227 added
+Weights at time step 107 of 227 tuned
+Connection 108 of 227 added
+Weights at time step 108 of 227 tuned
+Connection 109 of 227 added
+Weights at time step 109 of 227 tuned
+Connection 110 of 227 added
+Weights at time step 110 of 227 tuned
+Connection 111 of 227 added
+Weights at time step 111 of 227 tuned
+Connection 112 of 227 added
+Weights at time step 112 of 227 tuned
+Connection 113 of 227 added
+Weights at time step 113 of 227 tuned
+Connection 114 of 227 added
+Weights at time step 114 of 227 tuned
+Connection 115 of 227 added
+Weights at time step 115 of 227 tuned
+Connection 116 of 227 added
+Weights at time step 116 of 227 tuned
+Connection 117 of 227 added
+Weights at time step 117 of 227 tuned
+Connection 118 of 227 added
+Weights at time step 118 of 227 tuned
+Connection 119 of 227 added
+Weights at time step 119 of 227 tuned
+Connection 120 of 227 added
+Weights at time step 120 of 227 tuned
+Connection 121 of 227 added
+Weights at time step 121 of 227 tuned
+Connection 122 of 227 added
+Weights at time step 122 of 227 tuned
+Connection 123 of 227 added
+Weights at time step 123 of 227 tuned
+Connection 124 of 227 added
+Weights at time step 124 of 227 tuned
+Connection 125 of 227 added
+Weights at time step 125 of 227 tuned
+Connection 126 of 227 added
+Weights at time step 126 of 227 tuned
+Connection 127 of 227 added
+Weights at time step 127 of 227 tuned
+Connection 128 of 227 added
+Weights at time step 128 of 227 tuned
+Connection 129 of 227 added
+Weights at time step 129 of 227 tuned
+Connection 130 of 227 added
+Weights at time step 130 of 227 tuned
+Connection 131 of 227 added
+Weights at time step 131 of 227 tuned
+Connection 132 of 227 added
+Weights at time step 132 of 227 tuned
+Connection 133 of 227 added
+Weights at time step 133 of 227 tuned
+Connection 134 of 227 added
+Weights at time step 134 of 227 tuned
+Connection 135 of 227 added
+Weights at time step 135 of 227 tuned
+Connection 136 of 227 added
+Weights at time step 136 of 227 tuned
+Connection 137 of 227 added
+Weights at time step 137 of 227 tuned
+Connection 138 of 227 added
+Weights at time step 138 of 227 tuned
+Connection 139 of 227 added
+Weights at time step 139 of 227 tuned
+Connection 140 of 227 added
+Weights at time step 140 of 227 tuned
+Connection 141 of 227 added
+Weights at time step 141 of 227 tuned
+Connection 142 of 227 added
+Weights at time step 142 of 227 tuned
+Connection 143 of 227 added
+Weights at time step 143 of 227 tuned
+Connection 144 of 227 added
+Weights at time step 144 of 227 tuned
+Connection 145 of 227 added
+Weights at time step 145 of 227 tuned
+Connection 146 of 227 added
+Weights at time step 146 of 227 tuned
+Connection 147 of 227 added
+Weights at time step 147 of 227 tuned
+Connection 148 of 227 added
+Weights at time step 148 of 227 tuned
+Connection 149 of 227 added
+Weights at time step 149 of 227 tuned
+Connection 150 of 227 added
+Weights at time step 150 of 227 tuned
+Connection 151 of 227 added
+Weights at time step 151 of 227 tuned
+Connection 152 of 227 added
+Weights at time step 152 of 227 tuned
+Connection 153 of 227 added
+Weights at time step 153 of 227 tuned
+Connection 154 of 227 added
+Weights at time step 154 of 227 tuned
+Connection 155 of 227 added
+Weights at time step 155 of 227 tuned
+Connection 156 of 227 added
+Weights at time step 156 of 227 tuned
+Connection 157 of 227 added
+Weights at time step 157 of 227 tuned
+Connection 158 of 227 added
+Weights at time step 158 of 227 tuned
+Connection 159 of 227 added
+Weights at time step 159 of 227 tuned
+Connection 160 of 227 added
+Weights at time step 160 of 227 tuned
+Connection 161 of 227 added
+Weights at time step 161 of 227 tuned
+Connection 162 of 227 added
+Weights at time step 162 of 227 tuned
+Connection 163 of 227 added
+Weights at time step 163 of 227 tuned
+Connection 164 of 227 added
+Weights at time step 164 of 227 tuned
+Connection 165 of 227 added
+Weights at time step 165 of 227 tuned
+Connection 166 of 227 added
+Weights at time step 166 of 227 tuned
+Connection 167 of 227 added
+Weights at time step 167 of 227 tuned
+Connection 168 of 227 added
+Weights at time step 168 of 227 tuned
+Connection 169 of 227 added
+Weights at time step 169 of 227 tuned
+Connection 170 of 227 added
+Weights at time step 170 of 227 tuned
+Connection 171 of 227 added
+Weights at time step 171 of 227 tuned
+Connection 172 of 227 added
+Weights at time step 172 of 227 tuned
+Connection 173 of 227 added
+Weights at time step 173 of 227 tuned
+Connection 174 of 227 added
+Weights at time step 174 of 227 tuned
+Connection 175 of 227 added
+Weights at time step 175 of 227 tuned
+Connection 176 of 227 added
+Weights at time step 176 of 227 tuned
+Connection 177 of 227 added
+Weights at time step 177 of 227 tuned
+Connection 178 of 227 added
+Weights at time step 178 of 227 tuned
+Connection 179 of 227 added
+Weights at time step 179 of 227 tuned
+Connection 180 of 227 added
+Weights at time step 180 of 227 tuned
+Connection 181 of 227 added
+Weights at time step 181 of 227 tuned
+Connection 182 of 227 added
+Weights at time step 182 of 227 tuned
+Connection 183 of 227 added
+Weights at time step 183 of 227 tuned
+Connection 184 of 227 added
+Weights at time step 184 of 227 tuned
+Connection 185 of 227 added
+Weights at time step 185 of 227 tuned
+Connection 186 of 227 added
+Weights at time step 186 of 227 tuned
+Connection 187 of 227 added
+Weights at time step 187 of 227 tuned
+Connection 188 of 227 added
+Weights at time step 188 of 227 tuned
+Connection 189 of 227 added
+Weights at time step 189 of 227 tuned
+Connection 190 of 227 added
+Weights at time step 190 of 227 tuned
+Connection 191 of 227 added
+Weights at time step 191 of 227 tuned
+Connection 192 of 227 added
+Weights at time step 192 of 227 tuned
+Connection 193 of 227 added
+Weights at time step 193 of 227 tuned
+Connection 194 of 227 added
+Weights at time step 194 of 227 tuned
+Connection 195 of 227 added
+Weights at time step 195 of 227 tuned
+Connection 196 of 227 added
+Weights at time step 196 of 227 tuned
+Connection 197 of 227 added
+Weights at time step 197 of 227 tuned
+Connection 198 of 227 added
+Weights at time step 198 of 227 tuned
+Connection 199 of 227 added
+Weights at time step 199 of 227 tuned
+Connection 200 of 227 added
+Weights at time step 200 of 227 tuned
+Connection 201 of 227 added
+Weights at time step 201 of 227 tuned
+Connection 202 of 227 added
+Weights at time step 202 of 227 tuned
+Connection 203 of 227 added
+Weights at time step 203 of 227 tuned
+Connection 204 of 227 added
+Weights at time step 204 of 227 tuned
+Connection 205 of 227 added
+Weights at time step 205 of 227 tuned
+Connection 206 of 227 added
+Weights at time step 206 of 227 tuned
+Connection 207 of 227 added
+Weights at time step 207 of 227 tuned
+Connection 208 of 227 added
+Weights at time step 208 of 227 tuned
+Connection 209 of 227 added
+Weights at time step 209 of 227 tuned
+Connection 210 of 227 added
+Weights at time step 210 of 227 tuned
+Connection 211 of 227 added
+Weights at time step 211 of 227 tuned
+Connection 212 of 227 added
+Weights at time step 212 of 227 tuned
+Connection 213 of 227 added
+Weights at time step 213 of 227 tuned
+Connection 214 of 227 added
+Weights at time step 214 of 227 tuned
+Connection 215 of 227 added
+Weights at time step 215 of 227 tuned
+Connection 216 of 227 added
+Weights at time step 216 of 227 tuned
+Connection 217 of 227 added
+Weights at time step 217 of 227 tuned
+Connection 218 of 227 added
+Weights at time step 218 of 227 tuned
+Connection 219 of 227 added
+Weights at time step 219 of 227 tuned
+Connection 220 of 227 added
+Weights at time step 220 of 227 tuned
+Connection 221 of 227 added
+Weights at time step 221 of 227 tuned
+Connection 222 of 227 added
+Weights at time step 222 of 227 tuned
+Connection 223 of 227 added
+Weights at time step 223 of 227 tuned
+Connection 224 of 227 added
+Weights at time step 224 of 227 tuned
+Connection 225 of 227 added
+Weights at time step 225 of 227 tuned
+Connection 226 of 227 added
+Weights at time step 226 of 227 tuned
+Connection 227 of 227 added
+Weights at time step 227 of 227 tuned
+
+ans = 
+
+  struct with fields:
+
+         model: [1x1 struct]
+       network: [1x1 struct]
+    evaluation: [1x1 struct]
+           run: 5
+

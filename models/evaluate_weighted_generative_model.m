@@ -6,7 +6,7 @@ function output = evaluate_weighted_generative_model(alpha,run);
     addpath('/imaging/astle/users/da04/PhD/toolboxes/colorBrewer');
     addpath('/imaging/astle/users/da04/PhD/toolboxes/Colormaps/Colormaps (5)/Colormaps');
     % load the data
-    load('/imaging/astle/users/da04/Postdoc/weighted_gm/weighted_generative_models/prepare/data/consensus.mat');
+    load '/imaging/astle/users/da04/Postdoc/weighted_gm/weighted_generative_models/prepare/data/consensus.mat' consensus;
     % set directory
     savedir = '/imaging/astle/users/da04/Postdoc/weighted_gm/model_outputs_221122';
     % run weighted generative model
