@@ -802,6 +802,7 @@ function [bb cc dd] = fcn_matching(A,K,D,m,eta,gam,modelvar,epsilon,weighted_mod
 weight_update = weighted_model.update;
 start_thr = weighted_model.start;
 func = weighted_model.optimisation.function;
+omega = weighted_model.optimisation.omega;
 alpha = weighted_model.optimisation.alpha;
 nu = weighted_model.optimisation.resolution;
 rep = weighted_model.optimisation.samples;
@@ -904,7 +905,7 @@ for ii = (mseed + 1):m
                 ind = [a(edge) b(edge)];
                 % compute the gradient
                  x = 1:nreps; % get the incremental changes
-                 y = sum_comm(edge,:) * D(ind(1),ind(2)); % *** this is the objective function ***
+                 y = (sum_comm(edge,:) * D(ind(1),ind(2))).^omega; % *** this is the objective function ***
                  z =  fit(x',y','poly1');
                  curve(edge) = z.p1; % first order
             end

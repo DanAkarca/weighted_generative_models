@@ -36,10 +36,9 @@ weighted_model = struct;
 weighted_model.update = 1; % flag for weighted genreative models optimisation
 weighted_model.start = 1; % when to start optimisation (this is on top of the initial seed network connectivity)
 weighted_model.optimisation.function = 2; % communicability, 1. normalised communicability, 2.
-weighted_model.optimisation.omega = 1;
 weighted_model.optimisation.resolution = 0.05; % how many weight alternations are sampled before the gradient is taken
 weighted_model.optimisation.samples = 5; % how many samples are taken to infer the gradient [5]
-weighted_model.optimisation.alpha = 0.04; % the update coefficient [comm ~ 0 to 0.4, 5 normalised tbd]
+weighted_model.optimisation.alpha = 0.1; % the update coefficient [comm ~ 0 to 0.4, 5 normalised tbd]
 %% run the model open
 % initalise
 Akeep = zeros(length(A),length(A),m);
@@ -48,7 +47,6 @@ Wkeep = zeros(length(A),length(A),m);
 weight_update = weighted_model.update;
 start_thr = weighted_model.start;
 func = weighted_model.optimisation.function;
-omega = weighted_model.optimisation.omega;
 alpha = weighted_model.optimisation.alpha;
 nu = weighted_model.optimisation.resolution;
 rep = weighted_model.optimisation.samples;
@@ -145,10 +143,8 @@ for ii = (mseed + 1):m
                         comm = expm(adj); % calculate the normalised communicability
                         end
                     end
-                    % calculate the summed communicability across the whole network
+                    % and the summed communicability
                     sum_comm(edge,ru) = sum(comm,'all');
-                    % calculate the summed communicability across only that the nodes connected to this edge
-                    sum_comm_local(edge,ru) = sum(comm(ind(1),:) + comm(ind(2),:)); % note that if we did just local, all would prune!
                 end
             end
             % compute the gradient
@@ -158,7 +154,7 @@ for ii = (mseed + 1):m
                 ind = [a(edge) b(edge)];
                 % compute the gradient
                  x = 1:nreps; % get the incremental changes
-                 y = (sum_comm(edge,:) * D(ind(1),ind(2))).^omega; % *** this is the objective function ***
+                 y = (sum_comm(edge,:) * D(ind(1),ind(2))).^.8; % *** this is the objective function ***
                  z =  fit(x',y','poly1');
                  curve(edge) = z.p1; % first order
             end

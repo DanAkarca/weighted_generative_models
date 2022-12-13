@@ -1,4 +1,4 @@
-%% analyse weighted model outputs
+%% analyse weighted model outputs (note - this is for older model runs without variable omega)
 % written by danyal akarca, university of cambridge, 2022
 
 % clear
@@ -14,7 +14,7 @@ addpath('/imaging/astle/users/da04/PhD/toolboxes/Colormaps/Colormaps (5)/Colorma
 load '/imaging/astle/users/da04/Postdoc/weighted_gm/weighted_generative_models/prepare/data/consensus.mat' consensus;
 
 % change directory
-directory = '/imaging/astle/users/da04/Postdoc/weighted_gm/model_outputs_131222b';
+directory = '/imaging/astle/users/da04/Postdoc/weighted_gm/model_outputs_131222a';
 cd(directory);
 
 %% load all networks
@@ -36,7 +36,6 @@ for net = 1:nnet;
     load(list(net));
     % extract model related variables
     alpha(net) = output.model.optimisation.alpha;
-	omega(net) = output.model.optimisation.omega;
     run(net) = output.run;
     % extract evaluations
     energy(net,:) = [output.evaluation.binary.energy output.evaluation.weighted.energy];
@@ -46,14 +45,14 @@ for net = 1:nnet;
     % display
     disp(sprintf('Network %g of %g loaded',net,nnet));
 end
-% get indices for networks over the same omega, alpha and run
-[~,vo,io] = unique(omega);
+% get indices for networks over the same alpha and run
 [~,va,ia] = unique(alpha);
 [~,vr,ir] = unique(run+1);
 % number of unique alpha and runs
-nomega = length(vo);
 nalpha = length(va);
 nrun = length(vr);
+
+% question: why is the binary model giving consistent energy values? check that Abin is calculated correctly (e.g., negative weights)
 
 %% plot energy over the whole sample
 % visualise
@@ -65,7 +64,17 @@ subplot(1,2,2);
 histogram(energy(:,2),'edgecolor','w'); 
 b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 25; box off;
 
-%% plot model fits over omega and alpha
+%% plot model fits at each alpha
+
+% take a summary energy for all alpha values evaluated
+energy_alpha = zeros(nalpha,2);
+ks_alpha = zeros(nalpha,4,2);
+for a = 1:nalpha;
+    % take the mean energy for each alpha
+    energy_alpha(a,:) = mean(energy(ia(va==a),:),1);
+    % take the mean ks for each alpha
+    ks_alpha(a,:,:) = squeeze(mean(ks(ia(va==a),:,:),1));
+end
 
 % visualise energy relationship to alpha
 h = figure; h.Position = [100 100 500 400];
@@ -85,39 +94,9 @@ for k = 1:nks;
     ylim([0 1]);
 end
 
-% visualise energy relationship to omega
-h = figure; h.Position = [100 100 500 400];
-scatter(omega,energy(:,2),200,'.');
-b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 25; box off;
-xlabel('\omega'); ylabel('Energy');
-ylim([0 1]);
-
-% visualise ks relationship to omega
-h = figure; h.Position = [100 100 1000 800];
-for k = 1:nks;
-    subplot(2,nks/2,k);
-    scatter(omega,ks(:,k,2),200,'.');
-    b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 25; box off;
-    xlabel('\omega'); ylabel('KS'); 
-    title(ks_labels(k),'FontWeight','normal','FontSize',25,'FontName','Arial');
-    ylim([0 1]);
-end
-
-%% plot the energy and ks landscapes
-
-h = figure; h.Position = [100 100 600 500];
-scatter(omega,alpha,10000,energy(:,2),'.'); colorbar;
-b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 14;
-xlabel('\omega'); ylabel('\alpha');
-
-%% compare distributions to the empirical
-
 % plot an example empirical comparison
-% find the network with the lowest energy
-[i v] = min(energy);
-
 % select a network
-network = v(2);
+network = 50;
 % load final weighted simulation
 load(list(network));
 Wsynth = squeeze(output.network.weighted(:,:,end));
@@ -142,7 +121,7 @@ deltaCDF = abs(sampleCDF1-sampleCDF2);
 % compute the largest difference (KS)
 kstat = max(deltaCDF);
 
-% visualise the CDF
+% visualise
 h = figure; h.Position = [100 100 500 400];
 plot(sampleCDF1,'linewidth',2);
 hold on;
@@ -153,30 +132,7 @@ b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 25;
 box off;
 xlabel('X'); ylabel('Cumulative probability');
 
-% visualise the plots
-
-% plot the empirical statistics
-y = cell(4,1);
-y{1} = sum(weight_conversion(Wsynth,'normalize'),2);
-y{2} = real(clustering_coef_wu(weight_conversion(Wsynth,'normalize')));
-y{3} = betweenness_wei(weight_conversion(Wsynth,'normalize'));
-D = consensus.dk.euclidean;
-y{4} = D(triu(Wsynth,1) > 0);
-
-% labels
-ks_labels = string({'s','wc','wb','d'});
-% visualise
-h = figure; h.Position = [10 10 1500 300];
-for i = 1:4;
-    subplot(1,4,i); 
-    histogram(y{i},10,'edgecolor','w');
-    b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 14; box off;
-    xlabel(ks_labels(i)); ylabel('Frequency');
-end
-
-%% visualise the relationship between KS
-figure; 
-imagesc(corr(ks(:,:,2)));
+%% plot model fits over runs within each alpha
 
 %% extract networks at specific parameters
 

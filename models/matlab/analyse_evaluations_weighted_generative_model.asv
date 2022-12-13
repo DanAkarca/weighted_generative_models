@@ -105,10 +105,10 @@ end
 
 %% plot the energy and ks landscapes
 
-h = figure; h.Position = [100 100 600 500];
-scatter(omega,alpha,10000,energy(:,2),'.'); colorbar;
+h = figure; h.Position = [100 100 500 600];
+scatter(omega,alpha,2000,energy(:,2),'.'); colorbar;
 b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 14;
-xlabel('\omega'); ylabel('\alpha');
+xlabel('/omega'); ylabel('/alpha');
 
 %% compare distributions to the empirical
 

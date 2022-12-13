@@ -1,4 +1,4 @@
-function output = evaluate_weighted_generative_model(alpha,run);
+function output = evaluate_weighted_generative_model(eta,gamma,omega,alpha,run);
     % addpaths
     cd('/imaging/astle/users/da04/Postdoc/weighted_gm/weighted_generative_models/');
     addpath('/imaging/astle/users/da04/Postdoc/weighted_gm/weighted_generative_models/models/matlab/');
@@ -8,7 +8,7 @@ function output = evaluate_weighted_generative_model(alpha,run);
     % load the data
     load '/imaging/astle/users/da04/Postdoc/weighted_gm/weighted_generative_models/prepare/data/consensus.mat' consensus;
     % set directory
-    savedir = '/imaging/astle/users/da04/Postdoc/weighted_gm/model_outputs_121222b';
+    savedir = '/imaging/astle/users/da04/Postdoc/weighted_gm/model_outputs_131222c';
     % run weighted generative model
     % target
     type = 1;
@@ -38,7 +38,7 @@ function output = evaluate_weighted_generative_model(alpha,run);
     mseed = nnz(seed)/2;
     modeltype = 'matching';
     modelvar = {'powerlaw','powerlaw'};
-    params = [-2.55 0.38];
+    params = [eta gamma];
     epsilon = 1e-6;
     % weighted genreative model parameters
     weighted_model = struct;
@@ -48,6 +48,9 @@ function output = evaluate_weighted_generative_model(alpha,run);
     weighted_model.optimisation.resolution = 0.05; % how many weight alternations are sampled before the gradient is taken
     weighted_model.optimisation.samples = 5; % how many samples are taken to infer the gradient
     weighted_model.optimisation.alpha = alpha; % the update coefficient [must be a smaller range]
+    weighted_model.optimisation.omega = omega; % the local-global weight update term
+	weighted_model.settings.eta = eta;
+	weighted_model.settings.gamma = gamma;
     % run the weighted genreative model
     [bb cc dd] = weight_optimised_generative_model(seed,D,m,modeltype,modelvar,params,epsilon,...
         weighted_model);
@@ -55,13 +58,13 @@ function output = evaluate_weighted_generative_model(alpha,run);
     wfinal = dd(:,:,end);
     % do evaluations
     % compute compute binary
-    Abin = double(wfinal>0);
+    Abin = double(wfinal>0); % this may not be accurate - check that this is correct
     Kb = [];
     yb = cell(4,1);
     yb{1} = degrees_und(Abin)';
     yb{2} = clustering_coef_bu(Abin);
     yb{3} = betweenness_bin(Abin)';
-    yb{4} = D(triu(Abin,1) > 0); % can cause an error if there are negative weights!
+    yb{4} = D(triu(Abin,1) > 0);
     for j = 1:4
         Kb(j) = fcn_ks(xb{j},yb{j});
     end
@@ -89,7 +92,7 @@ function output = evaluate_weighted_generative_model(alpha,run);
 	ouput.detail = 'Evaluated where both the target and simulated network were normalized simultaneously';
     output.run = run;
     % save the output
-    savefile = sprintf('%s/output_%g_%g.mat',savedir,run,alpha);
+    savefile = sprintf('%s/output_%g_%g_%g.mat',savedir,run,alpha,omega);
     save(savefile,'output');
     %% ks function
     function kstat = fcn_ks(x1,x2)

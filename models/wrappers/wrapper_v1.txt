@@ -8,8 +8,8 @@ wd = "/imaging/astle/users/da04/Postdoc/weighted_gm/weighted_generative_models/m
 #change directory
 os.chdir(wd)
 #set fixed parameters
-alpha=np.linspace(0.00,0.03,num=20)
-run=np.arange(5)
+alpha=np.linspace(0.00,0.02,num=40)
+run=np.arange(2)
 #loop over changing parameters and submit
 for x in alpha:
 	for y in run:
