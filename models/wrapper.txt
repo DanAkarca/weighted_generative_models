@@ -4,12 +4,12 @@ import numpy as np
 import os
 from subprocess import call
 #set working directory
-wd = "/imaging/astle/users/da04/Postdoc/weighted_gm/weighted_generative_models/models"
+wd = "/imaging/astle/users/da04/Postdoc/weighted_gm/weighted_generative_models/models/matlab"
 #change directory
 os.chdir(wd)
 #set fixed parameters
-alpha=np.linspace(0.00,0.05,num=20)
-run=np.arange(20)
+alpha=np.linspace(0.00,0.03,num=20)
+run=np.arange(5)
 #loop over changing parameters and submit
 for x in alpha:
 	for y in run:
