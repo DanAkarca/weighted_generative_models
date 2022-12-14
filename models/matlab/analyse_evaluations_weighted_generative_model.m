@@ -14,7 +14,7 @@ addpath('/imaging/astle/users/da04/PhD/toolboxes/Colormaps/Colormaps (5)/Colorma
 load '/imaging/astle/users/da04/Postdoc/weighted_gm/weighted_generative_models/prepare/data/consensus.mat' consensus;
 
 % change directory
-directory = '/imaging/astle/users/da04/Postdoc/weighted_gm/model_outputs_131222b';
+directory = '/imaging/astle/users/da04/Postdoc/weighted_gm/model_outputs_131222c';
 cd(directory);
 
 %% load all networks
@@ -37,9 +37,11 @@ for net = 1:nnet;
     % extract model related variables
     alpha(net) = output.model.optimisation.alpha;
 	omega(net) = output.model.optimisation.omega;
+    eta(net) = output.model.settings.eta;
+    gamma(net) = output.model.settings.gamma;
     run(net) = output.run;
     % extract evaluations
-    energy(net,:) = [output.evaluation.binary.energy output.evaluation.weighted.energy];
+    energy(net,:) = [output.evaluation.binary.energy, output.evaluation.weighted.energy];
     ks(net,:,1) = [output.evaluation.binary.ks]; ks(net,:,2) = [output.evaluation.weighted.ks];
     % clear output
     clear output
@@ -57,58 +59,99 @@ nrun = length(vr);
 
 %% plot energy over the whole sample
 % visualise
-h = figure; h.Position = [100 100 1000 400];
-subplot(1,2,1);
-histogram(energy(:,1),'edgecolor','w'); 
-b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 25; box off;
-subplot(1,2,2);
-histogram(energy(:,2),'edgecolor','w'); 
-b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 25; box off;
+h = figure; h.Position = [100 100 1600 180];
+subplot(1,7,1);
+histogram(energy(:,1),'edgecolor','w'); xlim([0 1]);
+b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12; box off;
+xlabel('Energy'); ylabel('Frequency');
+subplot(1,7,2);
+histogram(energy(:,2),'edgecolor','w'); xlim([0 1]);
+b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12; box off;
+xlabel('Energy'); ylabel('Frequency');
+subplot(1,7,3);
+scatter(energy(:,1),energy(:,2),50,'.');
+b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12; box off;
+xlabel('Binary energy'); ylabel('Weighted energy'); axis equal;
+subplot(1,7,4);
+scatter(ks(:,1,1),ks(:,1,2),50,'.');
+b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12; box off;
+xlabel('Binary KSk'); ylabel('Weighted KSk'); axis equal;
+subplot(1,7,5);
+scatter(ks(:,2,1),ks(:,2,2),50,'.');
+b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12; box off;
+xlabel('Binary KSc'); ylabel('Weighted KSc'); axis equal;
+subplot(1,7,6);
+scatter(ks(:,3,1),ks(:,3,2),50,'.');
+b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12; box off;
+xlabel('Binary KSb'); ylabel('Weighted KSb'); axis equal;
+subplot(1,7,7);
+scatter(ks(:,4,1),ks(:,4,2),50,'.');
+b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12; box off;
+xlabel('Binary KSd'); ylabel('Weighted KSd'); axis equal;
 
 %% plot model fits over omega and alpha
 
 % visualise energy relationship to alpha
-h = figure; h.Position = [100 100 500 400];
+h = figure; h.Position = [100 100 300 200];
 scatter(alpha,energy(:,2),200,'.');
-b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 25; box off;
+b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12; box off;
 xlabel('\alpha'); ylabel('Energy');
 ylim([0 1]);
 
 % visualise ks relationship to alpha
-h = figure; h.Position = [100 100 1000 800];
+h = figure; h.Position = [100 100 1000 200];
 for k = 1:nks;
-    subplot(2,nks/2,k);
+    subplot(1,nks,k);
     scatter(alpha,ks(:,k,2),200,'.');
-    b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 25; box off;
+    b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12; box off;
     xlabel('\alpha'); ylabel('KS'); 
-    title(ks_labels(k),'FontWeight','normal','FontSize',25,'FontName','Arial');
+    title(ks_labels(k),'FontWeight','normal','FontSize',12,'FontName','Arial');
     ylim([0 1]);
 end
 
 % visualise energy relationship to omega
-h = figure; h.Position = [100 100 500 400];
+h = figure; h.Position = [100 100 300 200];
 scatter(omega,energy(:,2),200,'.');
-b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 25; box off;
+b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12; box off;
 xlabel('\omega'); ylabel('Energy');
 ylim([0 1]);
 
 % visualise ks relationship to omega
-h = figure; h.Position = [100 100 1000 800];
+h = figure; h.Position = [100 100 1000 200];
 for k = 1:nks;
-    subplot(2,nks/2,k);
+    subplot(1,nks,k);
     scatter(omega,ks(:,k,2),200,'.');
-    b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 25; box off;
+    b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12; box off;
     xlabel('\omega'); ylabel('KS'); 
-    title(ks_labels(k),'FontWeight','normal','FontSize',25,'FontName','Arial');
+    title(ks_labels(k),'FontWeight','normal','FontSize',12,'FontName','Arial');
     ylim([0 1]);
 end
 
 %% plot the energy and ks landscapes
 
-h = figure; h.Position = [100 100 600 500];
-scatter(omega,alpha,10000,energy(:,2),'.'); colorbar;
+% NOTE the colour may have to be averaged here within parameter combination
+
+% plot the weighted landsscape
+h = figure; h.Position = [100 100 1000 300];
+subplot(1,2,1);
+scatter(eta,gamma,5000,energy(:,1),'.'); c = colorbar; c.Label.String = 'Binary energy';;
 b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 14;
-xlabel('\omega'); ylabel('\alpha');
+xlabel('\eta'); ylabel('\gamma'); caxis([0 1]); colormap(magma);
+subplot(1,2,2);
+scatter(omega,alpha,5000,energy(:,1),'.'); c = colorbar; c.Label.String = 'Binary energy';
+b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 14;
+xlabel('\omega'); ylabel('\alpha'); caxis([0 1]); colormap(magma);
+
+% plot the weighted landsscape
+h = figure; h.Position = [100 100 1000 300];
+subplot(1,2,1);
+scatter(eta,gamma,5000,energy(:,2),'.'); c = colorbar; c.Label.String = 'Weighted energy';;
+b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 14;
+xlabel('\eta'); ylabel('\gamma'); caxis([0 1]); colormap(magma);
+subplot(1,2,2);
+scatter(omega,alpha,5000,energy(:,2),'.'); c = colorbar; c.Label.String = 'Weighted energy';
+b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 14;
+xlabel('\omega'); ylabel('\alpha'); caxis([0 1]); colormap(magma);
 
 %% compare distributions to the empirical
 
@@ -123,6 +166,8 @@ load(list(network));
 Wsynth = squeeze(output.network.weighted(:,:,end));
 % load the empirical
 Wtgt = squeeze(consensus.dk.connectivity(1,6,:,:));
+
+% plot a cfd
 % define the comparison
 x1 = strengths_und(weight_conversion(Wtgt,'normalize'))';
 x2 = strengths_und(weight_conversion(Wsynth,'normalize'))';
@@ -149,11 +194,9 @@ hold on;
 plot(sampleCDF2,'linewidth',2);
 hold on;
 yline(kstat,'--','linewidth',2);
-b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 25;
+b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12;
 box off;
 xlabel('X'); ylabel('Cumulative probability');
-
-% visualise the plots
 
 % plot the empirical statistics
 y = cell(4,1);
@@ -174,9 +217,5 @@ for i = 1:4;
     xlabel(ks_labels(i)); ylabel('Frequency');
 end
 
-%% visualise the relationship between KS
-figure; 
-imagesc(corr(ks(:,:,2)));
-
-%% extract networks at specific parameters
-
+% visualise the developmental trajectory of this network (e.g., PCA)
+trajectory = output.network.weighted;

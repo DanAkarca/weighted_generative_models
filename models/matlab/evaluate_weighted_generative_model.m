@@ -8,7 +8,7 @@ function output = evaluate_weighted_generative_model(eta,gamma,omega,alpha,run);
     % load the data
     load '/imaging/astle/users/da04/Postdoc/weighted_gm/weighted_generative_models/prepare/data/consensus.mat' consensus;
     % set directory
-    savedir = '/imaging/astle/users/da04/Postdoc/weighted_gm/model_outputs_131222c';
+    savedir = '/imaging/astle/users/da04/Postdoc/weighted_gm/model_outputs_141222';
     % run weighted generative model
     % target
     type = 1;
@@ -92,7 +92,7 @@ function output = evaluate_weighted_generative_model(eta,gamma,omega,alpha,run);
 	ouput.detail = 'Evaluated where both the target and simulated network were normalized simultaneously';
     output.run = run;
     % save the output
-    savefile = sprintf('%s/output_%g_%g_%g.mat',savedir,run,alpha,omega);
+    savefile = sprintf('%s/output_%g_%g_%g_%g_%g.mat',savedir,eta,gamma,run,alpha,omega);
     save(savefile,'output');
     %% ks function
     function kstat = fcn_ks(x1,x2)

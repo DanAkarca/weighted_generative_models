@@ -1,4 +1,4 @@
-%% analyse weighted model outputs (note - this is for older model runs without variable omega)
+%% analyse weighted model outputs (v1 - this is for older model runs without variable omega)
 % written by danyal akarca, university of cambridge, 2022
 
 % clear

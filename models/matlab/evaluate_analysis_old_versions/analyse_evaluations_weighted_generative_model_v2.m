@@ -1,4 +1,4 @@
-%% analyse weighted model outputs
+%% analyse weighted model outputs (v2 - note this for variable omega, but not varied parameters)
 % written by danyal akarca, university of cambridge, 2022
 
 % clear
@@ -14,7 +14,7 @@ addpath('/imaging/astle/users/da04/PhD/toolboxes/Colormaps/Colormaps (5)/Colorma
 load '/imaging/astle/users/da04/Postdoc/weighted_gm/weighted_generative_models/prepare/data/consensus.mat' consensus;
 
 % change directory
-directory = '/imaging/astle/users/da04/Postdoc/weighted_gm/model_outputs_131222c';
+directory = '/imaging/astle/users/da04/Postdoc/weighted_gm/model_outputs_131222b';
 cd(directory);
 
 %% load all networks
@@ -37,8 +37,6 @@ for net = 1:nnet;
     % extract model related variables
     alpha(net) = output.model.optimisation.alpha;
 	omega(net) = output.model.optimisation.omega;
-    eta(net) = output.model.settings.eta;
-    gamma(net) = output.model.settings.gamma;
     run(net) = output.run;
     % extract evaluations
     energy(net,:) = [output.evaluation.binary.energy output.evaluation.weighted.energy];
@@ -59,35 +57,13 @@ nrun = length(vr);
 
 %% plot energy over the whole sample
 % visualise
-h = figure; h.Position = [100 100 1600 180];
-subplot(1,7,1);
-histogram(energy(:,1),'edgecolor','w'); xlim
-b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12; box off;
-xlabel('Energy'); ylabel('Frequency');
-subplot(1,7,2);
+h = figure; h.Position = [100 100 1000 400];
+subplot(1,2,1);
+histogram(energy(:,1),'edgecolor','w'); 
+b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 25; box off;
+subplot(1,2,2);
 histogram(energy(:,2),'edgecolor','w'); 
-b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12; box off;
-xlabel('Energy'); ylabel('Frequency');
-subplot(1,7,3);
-scatter(energy(:,1),energy(:,2),50,'.');
-b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12; box off;
-xlabel('Binary energy'); ylabel('Weighted energy'); axis equal;
-subplot(1,7,4);
-scatter(ks(:,1,1),ks(:,1,2),50,'.');
-b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12; box off;
-xlabel('Binary KSk'); ylabel('Weighted KSk'); axis equal;
-subplot(1,7,5);
-scatter(ks(:,2,1),ks(:,2,2),50,'.');
-b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12; box off;
-xlabel('Binary KSc'); ylabel('Weighted KSc'); axis equal;
-subplot(1,7,6);
-scatter(ks(:,3,1),ks(:,3,2),50,'.');
-b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12; box off;
-xlabel('Binary KSb'); ylabel('Weighted KSb'); axis equal;
-subplot(1,7,7);
-scatter(ks(:,4,1),ks(:,4,2),50,'.');
-b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 12; box off;
-xlabel('Binary KSd'); ylabel('Weighted KSd'); axis equal;
+b = gca; b.TickDir = 'out'; b.FontName = 'Arial'; b.FontSize = 25; box off;
 
 %% plot model fits over omega and alpha
 
@@ -128,8 +104,6 @@ for k = 1:nks;
 end
 
 %% plot the energy and ks landscapes
-
-% plot the binary landsscape
 
 h = figure; h.Position = [100 100 600 500];
 scatter(omega,alpha,10000,energy(:,2),'.'); colorbar;
